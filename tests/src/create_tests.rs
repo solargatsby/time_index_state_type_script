@@ -12,17 +12,16 @@ use ckb_tool::{
     }
 };
 
-pub const MAX_CYCLES: u64 = 10_000_000;
-pub const TIME_INDEX_CELL_DATA_LEN: usize = 2;
-pub const TIME_INDEX_CELL_DATA_N: u8 = 12;
+const MAX_CYCLES: u64 = 10_000_000;
+const TIME_INDEX_CELL_DATA_LEN: usize = 2;
+const TIME_INDEX_CELL_DATA_N: u8 = 12;
 
 // error numbers
-pub const TIME_INDEX_INVALID_ARGS: i8 = 5;
-pub const TIME_INDEX_INVALID_INPUT: i8 = 6;
-pub const TIME_INDEX_INVALID_OUTPUT: i8 = 7;
-pub const TIME_INDEX_INVALID_CELL_DATA: i8 = 8;
+const TIME_INDEX_INVALID_ARGS: i8 = 5;
+const TIME_INDEX_INVALID_OUTPUT: i8 = 7;
+const TIME_INDEX_INVALID_CELL_DATA: i8 = 8;
 
-pub fn build_time_index_cell_data(index: u8) -> Bytes{
+fn build_time_index_cell_data(index: u8) -> Bytes{
     let mut time_buf = BytesMut::with_capacity(TIME_INDEX_CELL_DATA_LEN);
     time_buf.put_u8(index);
     time_buf.put_u8(TIME_INDEX_CELL_DATA_N);
