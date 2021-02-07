@@ -1,5 +1,5 @@
 use crate::*;
-use ckb_testtool::{builtin::ALWAYS_SUCCESS,context::Context};
+use ckb_testtool::{builtin::ALWAYS_SUCCESS, context::Context};
 use ckb_tool::{
     ckb_error::assert_error_eq,
     ckb_script::ScriptError,
@@ -9,7 +9,7 @@ use ckb_tool::{
         core::TransactionBuilder,
         packed::*,
         prelude::*,
-    }
+    },
 };
 
 const MAX_CYCLES: u64 = 10_000_000;
@@ -22,7 +22,7 @@ const TIME_INDEX_INVALID_INPUT: i8 = 6;
 const TIME_INDEX_INVALID_OUTPUT: i8 = 7;
 const TIME_INDEX_INVALID_CELL_DATA: i8 = 8;
 
-fn build_time_index_cell_data(index: u8) -> Bytes{
+fn build_time_index_cell_data(index: u8) -> Bytes {
     let mut time_buf = BytesMut::with_capacity(TIME_INDEX_CELL_DATA_LEN);
     time_buf.put_u8(index);
     time_buf.put_u8(TIME_INDEX_CELL_DATA_N);
@@ -30,17 +30,15 @@ fn build_time_index_cell_data(index: u8) -> Bytes{
 }
 
 #[test]
-fn test_success(){
+fn test_success() {
     // deploy contract
     let mut context = Context::default();
     let contract_bin: Bytes = Loader::default().load_binary("time_index_state_type_script");
     let out_point = context.deploy_cell(contract_bin);
-    let type_script = context.
-        build_script(&out_point, out_point.as_bytes()).
-        expect("script");
-    let type_script_dep = CellDep::new_builder().
-        out_point(out_point).
-        build();
+    let type_script = context
+        .build_script(&out_point, out_point.as_bytes())
+        .expect("script");
+    let type_script_dep = CellDep::new_builder().out_point(out_point).build();
 
     // deploy always_success script
     let always_success_out_point = context.deploy_cell(ALWAYS_SUCCESS.clone());
@@ -67,15 +65,13 @@ fn test_success(){
     let input = CellInput::new_builder()
         .previous_output(input_out_point)
         .build();
-    let outputs = vec![
-        CellOutput::new_builder()
-            .capacity(500u64.pack())
-            .lock(lock_script.clone())
-            .type_(Some(type_script.clone()).pack())
-            .build(),
-    ];
+    let outputs = vec![CellOutput::new_builder()
+        .capacity(500u64.pack())
+        .lock(lock_script.clone())
+        .type_(Some(type_script.clone()).pack())
+        .build()];
 
-    let outputs_data = vec![build_time_index_cell_data(time_index+1)];
+    let outputs_data = vec![build_time_index_cell_data(time_index + 1)];
     // build transaction
     let tx = TransactionBuilder::default()
         .input(input)
@@ -94,17 +90,15 @@ fn test_success(){
 }
 
 #[test]
-fn test_error_invalid_input(){
+fn test_error_invalid_input() {
     // deploy contract
     let mut context = Context::default();
     let contract_bin: Bytes = Loader::default().load_binary("time_index_state_type_script");
     let out_point = context.deploy_cell(contract_bin);
-    let type_script = context.
-        build_script(&out_point, out_point.as_bytes()).
-        expect("script");
-    let type_script_dep = CellDep::new_builder().
-        out_point(out_point).
-        build();
+    let type_script = context
+        .build_script(&out_point, out_point.as_bytes())
+        .expect("script");
+    let type_script_dep = CellDep::new_builder().out_point(out_point).build();
 
     // deploy always_success script
     let always_success_out_point = context.deploy_cell(ALWAYS_SUCCESS.clone());
@@ -136,15 +130,13 @@ fn test_error_invalid_input(){
             .previous_output(input_out_point.clone())
             .build(),
     ];
-    let outputs = vec![
-        CellOutput::new_builder()
-            .capacity(500u64.pack())
-            .lock(lock_script.clone())
-            .type_(Some(type_script.clone()).pack())
-            .build(),
-    ];
+    let outputs = vec![CellOutput::new_builder()
+        .capacity(500u64.pack())
+        .lock(lock_script.clone())
+        .type_(Some(type_script.clone()).pack())
+        .build()];
 
-    let outputs_data = vec![build_time_index_cell_data(time_index+1)];
+    let outputs_data = vec![build_time_index_cell_data(time_index + 1)];
     // build transaction
     let tx = TransactionBuilder::default()
         .inputs(inputs)
@@ -164,17 +156,15 @@ fn test_error_invalid_input(){
 }
 
 #[test]
-fn test_error_invalid_output(){
+fn test_error_invalid_output() {
     // deploy contract
     let mut context = Context::default();
     let contract_bin: Bytes = Loader::default().load_binary("time_index_state_type_script");
     let out_point = context.deploy_cell(contract_bin);
-    let type_script = context.
-        build_script(&out_point, out_point.as_bytes()).
-        expect("script");
-    let type_script_dep = CellDep::new_builder().
-        out_point(out_point).
-        build();
+    let type_script = context
+        .build_script(&out_point, out_point.as_bytes())
+        .expect("script");
+    let type_script_dep = CellDep::new_builder().out_point(out_point).build();
 
     // deploy always_success script
     let always_success_out_point = context.deploy_cell(ALWAYS_SUCCESS.clone());
@@ -198,11 +188,9 @@ fn test_error_invalid_output(){
         build_time_index_cell_data(time_index),
     );
 
-    let inputs = vec![
-        CellInput::new_builder()
-            .previous_output(input_out_point.clone())
-            .build(),
-    ];
+    let inputs = vec![CellInput::new_builder()
+        .previous_output(input_out_point.clone())
+        .build()];
     let outputs = vec![
         CellOutput::new_builder()
             .capacity(500u64.pack())
@@ -216,8 +204,10 @@ fn test_error_invalid_output(){
             .build(),
     ];
 
-    let outputs_data = vec![build_time_index_cell_data(time_index+1),
-                            build_time_index_cell_data(time_index+1)];
+    let outputs_data = vec![
+        build_time_index_cell_data(time_index + 1),
+        build_time_index_cell_data(time_index + 1),
+    ];
     // build transaction
     let tx = TransactionBuilder::default()
         .inputs(inputs)
@@ -237,17 +227,15 @@ fn test_error_invalid_output(){
 }
 
 #[test]
-fn test_error_invalid_time_index(){
+fn test_error_invalid_time_index() {
     // deploy contract
     let mut context = Context::default();
     let contract_bin: Bytes = Loader::default().load_binary("time_index_state_type_script");
     let out_point = context.deploy_cell(contract_bin);
-    let type_script = context.
-        build_script(&out_point, out_point.as_bytes()).
-        expect("script");
-    let type_script_dep = CellDep::new_builder().
-        out_point(out_point).
-        build();
+    let type_script = context
+        .build_script(&out_point, out_point.as_bytes())
+        .expect("script");
+    let type_script_dep = CellDep::new_builder().out_point(out_point).build();
 
     // deploy always_success script
     let always_success_out_point = context.deploy_cell(ALWAYS_SUCCESS.clone());
@@ -271,18 +259,14 @@ fn test_error_invalid_time_index(){
         build_time_index_cell_data(time_index),
     );
 
-    let inputs = vec![
-        CellInput::new_builder()
-            .previous_output(input_out_point.clone())
-            .build(),
-    ];
-    let outputs = vec![
-        CellOutput::new_builder()
-            .capacity(500u64.pack())
-            .lock(lock_script.clone())
-            .type_(Some(type_script.clone()).pack())
-            .build(),
-    ];
+    let inputs = vec![CellInput::new_builder()
+        .previous_output(input_out_point.clone())
+        .build()];
+    let outputs = vec![CellOutput::new_builder()
+        .capacity(500u64.pack())
+        .lock(lock_script.clone())
+        .type_(Some(type_script.clone()).pack())
+        .build()];
 
     let outputs_data = vec![build_time_index_cell_data(time_index)];
     // build transaction
@@ -304,17 +288,15 @@ fn test_error_invalid_time_index(){
 }
 
 #[test]
-fn test_error_empty_args(){
+fn test_error_empty_args() {
     // deploy contract
     let mut context = Context::default();
     let contract_bin: Bytes = Loader::default().load_binary("time_index_state_type_script");
     let out_point = context.deploy_cell(contract_bin);
-    let type_script = context.
-        build_script(&out_point, Bytes::default()).
-        expect("script");
-    let type_script_dep = CellDep::new_builder().
-        out_point(out_point).
-        build();
+    let type_script = context
+        .build_script(&out_point, Bytes::default())
+        .expect("script");
+    let type_script_dep = CellDep::new_builder().out_point(out_point).build();
 
     // deploy always_success script
     let always_success_out_point = context.deploy_cell(ALWAYS_SUCCESS.clone());
@@ -338,20 +320,16 @@ fn test_error_empty_args(){
         build_time_index_cell_data(time_index),
     );
 
-    let inputs = vec![
-        CellInput::new_builder()
-            .previous_output(input_out_point.clone())
-            .build(),
-    ];
-    let outputs = vec![
-        CellOutput::new_builder()
-            .capacity(500u64.pack())
-            .lock(lock_script.clone())
-            .type_(Some(type_script.clone()).pack())
-            .build(),
-    ];
+    let inputs = vec![CellInput::new_builder()
+        .previous_output(input_out_point.clone())
+        .build()];
+    let outputs = vec![CellOutput::new_builder()
+        .capacity(500u64.pack())
+        .lock(lock_script.clone())
+        .type_(Some(type_script.clone()).pack())
+        .build()];
 
-    let outputs_data = vec![build_time_index_cell_data(time_index+1)];
+    let outputs_data = vec![build_time_index_cell_data(time_index + 1)];
     // build transaction
     let tx = TransactionBuilder::default()
         .inputs(inputs)

@@ -1,11 +1,8 @@
-use ckb_std::ckb_constants::Source;
 use crate::error::*;
 use crate::helper::*;
+use ckb_std::ckb_constants::Source;
 
-pub const TIME_INDEX_CELL_DATA_LEN: u8= 2;
-pub const TIME_INDEX_CELL_DATA_N: u8 = 12;
-
-pub fn create(script_hash: [u8; 32]) -> Result<(), Error>{
+pub fn create(script_hash: [u8; 32]) -> Result<(), Error> {
     cell_output_check(script_hash)?;
     create_cell_args_check()?;
 

@@ -1,8 +1,8 @@
-use ckb_std::{ckb_constants::Source, };
 use crate::error::*;
 use crate::helper::*;
+use ckb_std::ckb_constants::Source;
 
-pub fn update(script_hash:[u8; 32]) -> Result<(), Error>{
+pub fn update(script_hash: [u8; 32]) -> Result<(), Error> {
     cell_input_check(script_hash)?;
     cell_output_check(script_hash)?;
     update_cell_args_check(script_hash)?;
