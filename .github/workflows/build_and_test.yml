@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   Build:
-    runs-on: ubuntu-20.10
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
@@ -16,7 +16,7 @@ jobs:
       - uses: docker-practice/actions-setup-docker@master
         with:
           docker_channel: nigthly
-          docker_nightly_version: snapshot-20210202
+          docker_nightly_version: snapshot-20201008
 
       - name: Install Capsule
         run: |
