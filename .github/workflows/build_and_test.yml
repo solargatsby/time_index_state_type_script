@@ -16,6 +16,7 @@ jobs:
       - uses: docker-practice/actions-setup-docker@master
         with:
           docker_channel: nigthly
+          # this value please see https://github.com/AkihiroSuda/moby-snapshot/releases
           docker_nightly_version: snapshot-20201008
 
       - name: Install Capsule
