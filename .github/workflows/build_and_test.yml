@@ -15,9 +15,13 @@ jobs:
 
       - uses: docker-practice/actions-setup-docker@master
         with:
-          docker_channel: nigthly
+          docker_channel: nightly
           # this value please see https://github.com/AkihiroSuda/moby-snapshot/releases
           docker_nightly_version: snapshot-20201008
+      - run: |
+          set -x
+          docker version
+          docker run --rm hello-world
 
       - name: Install Capsule
         run: |
