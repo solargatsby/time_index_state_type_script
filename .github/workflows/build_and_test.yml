@@ -21,7 +21,6 @@ jobs:
       - run: |
           set -x
           docker version
-          docker run --rm hello-world
 
       - name: Install Capsule
         run: |
@@ -31,4 +30,4 @@ jobs:
         run: ./capsule/capsule build
 
       - name: Test contracts
-        run: make test
+        run: ./capsule/capsule test
