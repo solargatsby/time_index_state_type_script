@@ -10,6 +10,8 @@
 #![feature(alloc_error_handler)]
 #![feature(panic_info_message)]
 
+use ckb_std::default_alloc;
+
 // define modules
 mod create;
 mod entry;
@@ -17,8 +19,6 @@ mod error;
 mod hash;
 mod helper;
 mod update;
-
-use ckb_std::default_alloc;
 
 ckb_std::entry!(program_entry);
 default_alloc!();

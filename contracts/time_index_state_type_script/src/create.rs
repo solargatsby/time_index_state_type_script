@@ -1,6 +1,7 @@
-use crate::error::*;
-use crate::helper::*;
 use ckb_std::ckb_constants::Source;
+
+use crate::error::*;
+use crate::helper::{check_args_when_create_cell, check_cell_data, get_script_hash_cell_count};
 
 pub fn create(script_hash: [u8; 32]) -> Result<(), Error> {
     //should only one time index cell in output
@@ -9,15 +10,10 @@ pub fn create(script_hash: [u8; 32]) -> Result<(), Error> {
     }
 
     //the args of output script should equal the output point of the first input
-    cell_args_check_when_create()?;
+    check_args_when_create_cell()?;
 
     let output_cell_data = crate::helper::load_cell_data(script_hash, Source::Output)?;
-    if output_cell_data.len() != TIME_INDEX_CELL_DATA_LEN as usize
-        || output_cell_data[0] >= TIME_INDEX_CELL_DATA_N
-        || output_cell_data[1] != TIME_INDEX_CELL_DATA_N
-    {
-        return Err(Error::InvalidCellData);
-    }
+    check_cell_data(&output_cell_data)?;
 
     //index should equal 0 when create
     if output_cell_data[0] != 0 {

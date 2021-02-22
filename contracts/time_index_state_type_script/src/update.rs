@@ -1,6 +1,10 @@
-use crate::error::*;
-use crate::helper::*;
 use ckb_std::ckb_constants::Source;
+
+use crate::error::*;
+use crate::helper::{
+    check_args_when_update_cell, check_cell_data, get_script_hash_cell_count,
+    TIME_INDEX_CELL_DATA_N,
+};
 
 pub fn update(script_hash: [u8; 32]) -> Result<(), Error> {
     //should only one time index cell in input
@@ -12,22 +16,12 @@ pub fn update(script_hash: [u8; 32]) -> Result<(), Error> {
         return Err(Error::InvalidTimeIndexOutput);
     }
     //check whether args of script of input not empty and equal args of output's
-    cell_args_check_when_update(script_hash)?;
+    check_args_when_update_cell(script_hash)?;
 
     let input_cell_data = crate::helper::load_cell_data(script_hash, Source::Input)?;
-    if input_cell_data.len() != TIME_INDEX_CELL_DATA_LEN as usize
-        || input_cell_data[0] >= TIME_INDEX_CELL_DATA_N
-        || input_cell_data[1] != TIME_INDEX_CELL_DATA_N
-    {
-        return Err(Error::InvalidCellData);
-    }
+    check_cell_data(&input_cell_data)?;
     let output_cell_data = crate::helper::load_cell_data(script_hash, Source::Output)?;
-    if output_cell_data.len() != TIME_INDEX_CELL_DATA_LEN as usize
-        || output_cell_data[0] >= TIME_INDEX_CELL_DATA_N
-        || output_cell_data[1] != TIME_INDEX_CELL_DATA_N
-    {
-        return Err(Error::InvalidCellData);
-    }
+    check_cell_data(&output_cell_data)?;
 
     let input_time_index = input_cell_data[0];
     let output_time_index = output_cell_data[0];
