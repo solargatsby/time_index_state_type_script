@@ -71,7 +71,7 @@ pub fn load_cell_data(script_hash: [u8; 32], source: Source) -> Result<Vec<u8>, 
                 Source::Input | Source::GroupInput => Err(Error::InvalidTimeIndexInput),
                 Source::Output | Source::GroupOutput => Err(Error::InvalidTimeIndexOutput),
                 _ => Err(Error::ItemMissing),
-            }
+            };
         }
     };
     match ckb_std::high_level::load_cell_data(cell_index, source) {

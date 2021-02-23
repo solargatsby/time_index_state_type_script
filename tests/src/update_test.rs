@@ -1,4 +1,3 @@
-use crate::*;
 use ckb_testtool::{builtin::ALWAYS_SUCCESS, context::Context};
 use ckb_tool::{
     ckb_error::assert_error_eq,
@@ -11,6 +10,8 @@ use ckb_tool::{
         prelude::*,
     },
 };
+
+use crate::*;
 
 const MAX_CYCLES: u64 = 10_000_000;
 const TIME_INDEX_CELL_DATA_LEN: usize = 2;

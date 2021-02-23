@@ -16,7 +16,6 @@ use ckb_std::default_alloc;
 mod create;
 mod entry;
 mod error;
-mod hash;
 mod helper;
 mod update;
 
